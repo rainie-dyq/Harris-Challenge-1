@@ -16,23 +16,24 @@ divvy_stations = json.loads(open('divvy_stations.txt').read())
 # PROBLEM 1
 # find average number of empty docks (num_docks_available) and
 # available bikes (num_bikes_available) at all stations in the system
-empty_dock = [station['num_docks_available'] for station in divvy_stations]
-total1 = 0
-for num_docks_available in empty_dock:
-    total1 = total1 + num_docks_available
-print('Average number of empty docks is {:.3}'.format(total1/len(empty_dock)))
+empty_docks = [station['num_docks_available'] for station in divvy_stations]
+print('Average number of empty docks is {:.3}'.format(sum(empty_docks)/len(empty_docks)))
 
 available_bikes = [station['num_bikes_available'] for station in divvy_stations]
-total2 = 0
-for num_bikes_available in available_bikes:
-    total2 = total2 + num_bikes_available
-print('Average number of available bikes is {:.3}'.format(total2/len(available_bikes)))
+print('Average number of available bikes is {:.3}'.format(sum(available_bikes)/len(available_bikes)))
 
 # PROBLEM 2
 # find ratio of bikes that are currently rented to total bikes in the system (ignore ebikes)
-
+disabled_docks = [station['num_docks_disabled'] for station in divvy_stations]
+disabled_bikes = [station['num_bikes_disabled'] for station in divvy_stations]
+total_bikes = sum(empty_docks) + sum(available_bikes) + sum(disabled_docks) + sum(disabled_bikes)
+rented_bikes = total_bikes - sum(available_bikes)
+print('Ratio of currently rented bikes to total bikes is {:.3}'.format(rented_bikes/total_bikes))
 
 # PROBLEM 3
 # Add a new variable for each divvy station's entry, "percent_bikes_remaining", that shows
 # the percentage of bikes available at each individual station (again ignore ebikes).
 # This variable should be formatted as a percentage rounded to 2 decimal places, e.g. 66.67%
+for station in divvy_stations:
+    station['percent_bikes_remaining'] =  '{:.2%}'.format(station['num_bikes_available'] / (station['num_bikes_available'] + station['num_docks_available'] + station['num_bikes_disabled'] + station['num_docks_disabled']))
+print(divvy_stations)
