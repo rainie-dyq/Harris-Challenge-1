@@ -27,7 +27,7 @@ print('Average number of available bikes is {:.3}'.format(sum(available_bikes)/l
 disabled_docks = [station['num_docks_disabled'] for station in divvy_stations]
 disabled_bikes = [station['num_bikes_disabled'] for station in divvy_stations]
 total_bikes = sum(empty_docks) + sum(available_bikes) + sum(disabled_docks) + sum(disabled_bikes)
-rented_bikes = total_bikes - sum(available_bikes)
+rented_bikes = sum(empty_docks)
 print('Ratio of currently rented bikes to total bikes is {:.3}'.format(rented_bikes/total_bikes))
 
 # PROBLEM 3
